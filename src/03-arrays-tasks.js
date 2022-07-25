@@ -227,8 +227,12 @@ function toArrayOfSquares(arr) {
  *   [ 0, 0, 0, 0, 0]         => [ 0, 0, 0, 0, 0]
  *   [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] => [ 1, 3, 6, 10, 15, 21, 28, 36, 45, 55 ]
  */
-function getMovingSum(/* arr */) {
-  throw new Error('Not implemented');
+function getMovingSum(arr) {
+  let sum = 0;
+  return arr.map((elem) => {
+    sum += elem;
+    return sum;
+  });
 }
 
 /**
@@ -260,8 +264,8 @@ function getSecondItems(arr) {
  *  [ 'a', 'b', 'c', null ] => [ 'a', 'b','b', 'c','c','c',  null,null,null,null ]
  *  [ 1,2,3,4,5 ] => [ 1, 2,2, 3,3,3, 4,4,4,4, 5,5,5,5,5 ]
  */
-function propagateItemsByPositionIndex(/* arr */) {
-  throw new Error('Not implemented');
+function propagateItemsByPositionIndex(arr) {
+  return arr.map((elem, index) => new Array(index + 1).fill(elem)).flat();
 }
 
 /**
@@ -311,8 +315,23 @@ function getPositivesCount(arr) {
  *   [ 'nine','eight','nine','eight'] => [ 'eight','eight','nine','nine']
  *   [ 'one','one','one','zero' ]     => [ 'zero','one','one','one' ]
  */
-function sortDigitNamesByNumericOrder(/* arr */) {
-  throw new Error('Not implemented');
+function sortDigitNamesByNumericOrder(arr) {
+  const dictionaryNumbers = [
+    'zero',
+    'one',
+    'two',
+    'three',
+    'four',
+    'five',
+    'six',
+    'seven',
+    'eight',
+    'nine',
+  ];
+  return arr.sort(
+    // eslint-disable-next-line comma-dangle
+    (a, b) => dictionaryNumbers.indexOf(a) - dictionaryNumbers.indexOf(b)
+  );
 }
 
 /**
@@ -406,8 +425,15 @@ function toStringList(arr) {
  *      { country: 'Russia',  city: 'Saint Petersburg' }
  *    ]
  */
-function sortCitiesArray(/* arr */) {
-  throw new Error('Not implemented');
+function sortCitiesArray(arr) {
+  return arr.sort((a, b) => {
+    if (a.country === b.country) {
+      if (a.city > b.city) return 1;
+      return -1;
+    }
+    if (a.country > b.country) return 1;
+    return -1;
+  });
 }
 
 /**
@@ -428,8 +454,13 @@ function sortCitiesArray(/* arr */) {
  *           [0,0,0,1,0],
  *           [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-  throw new Error('Not implemented');
+function getIdentityMatrix(n) {
+  const mainArray = Array(n).fill(0);
+  return mainArray.map((elem, index) => {
+    const innerArray = Array(n).fill(0);
+    innerArray[index] = 1;
+    return innerArray;
+  });
 }
 
 /**
@@ -495,8 +526,19 @@ function distinct(arr) {
  *    "Poland" => ["Lodz"]
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  throw new Error('Not implemented');
+function group(array, keySelector, valueSelector) {
+  const map = new Map();
+  // eslint-disable-next-line array-callback-return
+  array.map((elem) => {
+    const keySelec = keySelector(elem);
+    const valueSelec = valueSelector(elem);
+    if (map.has(keySelec)) {
+      map.get(keySelec).push(valueSelec);
+    } else {
+      map.set(keySelec, [valueSelec]);
+    }
+  });
+  return map;
 }
 
 /**
@@ -512,8 +554,8 @@ function group(/* array, keySelector, valueSelector */) {
  *   [[1, 2], [3, 4], [5, 6]], (x) => x     =>   [ 1, 2, 3, 4, 5, 6 ]
  *   ['one','two','three'], x=>x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
-function selectMany(/* arr, childrenSelector */) {
-  throw new Error('Not implemented');
+function selectMany(arr, childrenSelector) {
+  return arr.map((elem) => childrenSelector(elem)).flat();
 }
 
 /**
@@ -528,8 +570,11 @@ function selectMany(/* arr, childrenSelector */) {
  *   ['one','two','three'], [2]       => 'three'  (arr[2])
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
-function getElementByIndexes(/* arr, indexes */) {
-  throw new Error('Not implemented');
+function getElementByIndexes(arr, indexes) {
+  if (Array.isArray(arr)) {
+    return getElementByIndexes(arr[indexes[0]], indexes.slice(1));
+  }
+  return arr;
 }
 
 /**
@@ -550,8 +595,15 @@ function getElementByIndexes(/* arr, indexes */) {
  *   [ 1, 2, 3, 4, 5, 6, 7, 8 ]   =>  [ 5, 6, 7, 8, 1, 2, 3, 4 ]
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  if (arr.length % 2 === 0) {
+    return [...arr.slice(arr.length / 2), ...arr.slice(0, arr.length / 2)];
+  }
+  return [
+    ...arr.slice(Math.ceil(arr.length / 2)),
+    arr[Math.floor(arr.length / 2)],
+    ...arr.slice(0, Math.ceil(arr.length / 2) - 1),
+  ];
 }
 
 module.exports = {

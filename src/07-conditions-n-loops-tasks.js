@@ -133,8 +133,16 @@ function isTriangle(a, b, c) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  return (
+    // eslint-disable-next-line operator-linebreak
+    rect1.left < rect2.left + rect2.width &&
+    // eslint-disable-next-line operator-linebreak
+    rect1.left + rect1.width > rect2.left &&
+    // eslint-disable-next-line operator-linebreak
+    rect1.top < rect2.top + rect2.height &&
+    rect1.top + rect1.height > rect2.top
+  );
 }
 
 /**
@@ -163,8 +171,15 @@ function doRectanglesOverlap(/* rect1, rect2 */) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
+function isInsideCircle(circle, point) {
+  return (
+    // eslint-disable-next-line operator-linebreak
+    circle.radius >
+    Math.sqrt(
+      // eslint-disable-next-line comma-dangle
+      (point.x - circle.center.x) ** 2 + (point.y - circle.center.y) ** 2
+    )
+  );
 }
 
 /**
@@ -267,8 +282,22 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const arrCcn = ccn.toString().split('').slice(0, -1).reverse();
+  const arrCcnFiltered = arrCcn.map((elem, index) => {
+    let curNumber = +elem;
+    if (index % 2 !== 0) {
+      return curNumber;
+    }
+    curNumber *= 2;
+    if (curNumber > 9) {
+      return +String(curNumber)[0] + +String(curNumber)[1];
+    }
+    return curNumber;
+  });
+  const sum = arrCcnFiltered.reduce((prev, cur) => prev + cur);
+  const sumMod = 10 - (sum % 10) > 9 ? 0 : 10 - (sum % 10);
+  return sumMod === +String(ccn)[String(ccn).length - 1];
 }
 
 /**
@@ -379,8 +408,30 @@ function toNaryString(num, n) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  const arrPath = pathes.map((elem) => elem.split('/'));
+  let result = '';
+  let minLength = 0;
+  for (let i = 0; i < arrPath.length; i += 1) {
+    minLength = arrPath[i].length;
+    if (arrPath[i].length < minLength) {
+      minLength = arrPath[i].length;
+    }
+  }
+  for (let i = 0; i < minLength; i += 1) {
+    const includeItem = arrPath[0][i];
+    let include = true;
+    for (let j = 0; j < arrPath.length; j += 1) {
+      if (includeItem !== arrPath[j][i]) {
+        include = false;
+      }
+    }
+    if (!include) {
+      return result;
+    }
+    result += `${includeItem}/`;
+  }
+  return result;
 }
 
 /**
@@ -401,8 +452,23 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const am = m1.length;
+  const an = m1[0].length;
+  const bn = m2[0].length;
+  const matrixProduct = new Array(am);
+
+  for (let i = 0; i < am; i += 1) {
+    matrixProduct[i] = new Array(bn);
+    for (let j = 0; j < bn; j += 1) {
+      matrixProduct[i][j] = 0;
+      for (let k = 0; k < an; k += 1) {
+        matrixProduct[i][j] += m1[i][k] * m2[k][j];
+      }
+    }
+  }
+
+  return matrixProduct;
 }
 
 /**
