@@ -501,8 +501,82 @@ function getMatrixProduct(m1, m2) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  for (let i = 0; i < 3; i += 1) {
+    if (
+      // eslint-disable-next-line operator-linebreak
+      position[i][0] === 'X' &&
+      // eslint-disable-next-line operator-linebreak
+      position[i][1] === 'X' &&
+      position[i][2] === 'X'
+    ) {
+      return 'X';
+    }
+    if (
+      // eslint-disable-next-line operator-linebreak
+      position[i][0] === '0' &&
+      // eslint-disable-next-line operator-linebreak
+      position[i][1] === '0' &&
+      position[i][2] === '0'
+    ) {
+      return '0';
+    }
+    if (
+      // eslint-disable-next-line operator-linebreak
+      position[0][i] === 'X' &&
+      // eslint-disable-next-line operator-linebreak
+      position[1][i] === 'X' &&
+      position[2][i] === 'X'
+    ) {
+      return 'X';
+    }
+    if (
+      // eslint-disable-next-line operator-linebreak
+      position[0][i] === '0' &&
+      // eslint-disable-next-line operator-linebreak
+      position[1][i] === '0' &&
+      position[2][i] === '0'
+    ) {
+      return '0';
+    }
+  }
+  if (
+    // eslint-disable-next-line operator-linebreak
+    position[0][0] === 'X' &&
+    // eslint-disable-next-line operator-linebreak
+    position[1][1] === 'X' &&
+    position[2][2] === 'X'
+  ) {
+    return 'X';
+  }
+  if (
+    // eslint-disable-next-line operator-linebreak
+    position[0][0] === '0' &&
+    // eslint-disable-next-line operator-linebreak
+    position[1][1] === '0' &&
+    position[2][2] === '0'
+  ) {
+    return '0';
+  }
+  if (
+    // eslint-disable-next-line operator-linebreak
+    position[0][2] === 'X' &&
+    // eslint-disable-next-line operator-linebreak
+    position[1][1] === 'X' &&
+    position[2][0] === 'X'
+  ) {
+    return 'X';
+  }
+  if (
+    // eslint-disable-next-line operator-linebreak
+    position[0][2] === '0' &&
+    // eslint-disable-next-line operator-linebreak
+    position[1][1] === '0' &&
+    position[2][0] === '0'
+  ) {
+    return '0';
+  }
+  return undefined;
 }
 
 module.exports = {
